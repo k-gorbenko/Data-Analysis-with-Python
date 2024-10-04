@@ -8,14 +8,11 @@ def create_model():
         nn.ReLU(),
         nn.Linear(256, 16),
         nn.ReLU(),
-        nn.Linear(16, 10) 
-    )
-    # return model instance (None is just a placeholder
+        nn.Linear(16, 10))
 
     return model
 
 def count_parameters(model):
     total_params = sum(p.numel() for p in model.parameters())
     # return integer number (None is just a placeholder)
-    
     return total_params
