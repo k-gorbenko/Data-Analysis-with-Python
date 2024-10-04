@@ -10,7 +10,7 @@ def create_model():
         nn.ReLU(),
         nn.Linear(16, 10) 
     )
-    # return model instance (None is just a placeholder)
+    # return model instance (None is just a placeholder
 
     return model
 
