@@ -3,13 +3,22 @@ import torch
 from torch import nn
 
 def create_model():
-    # your code here
+    # Linear layer mapping from 784 features, so it should be 784->256->16->10
+
+    model = nn.Sequential(
+        nn.Linear(784, 256),  # Первый линейный слой (784 -> 256)
+        nn.ReLU(),            # Функция активации ReLU
+        nn.Linear(256, 16),   # Второй линейный слой (256 -> 16)
+        nn.ReLU(),            # Функция активации ReLU
+        nn.Linear(16, 10)     # Третий линейный слой (16 -> 10)
+        # Последний слой без функции активации
+    )
+
+
     # return model instance (None is just a placeholder)
 
-    return None
+    return model
 
 def count_parameters(model):
-    # your code here
-    # return integer number (None is just a placeholder)
-    
-    return None
+    total_params = sum(p.numel() for p in model.parameters())
+    return total_params
