@@ -1,12 +1,6 @@
 import numpy as np
 
 def softmax(vector):
-    '''
-    vector: np.array of shape (n, m)
-    
-    return: np.array of shape (n, m)
-        Matrix where softmax is computed for every row independently
-    '''
     nice_vector = vector - vector.max()
     exp_vector = np.exp(nice_vector)
     exp_denominator = np.sum(exp_vector, axis=1)[:, np.newaxis]
