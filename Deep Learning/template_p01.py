@@ -8,11 +8,32 @@ def softmax(vector):
     return softmax_
 
 def multiplicative_attention(decoder_hidden_state, encoder_hidden_states, W_mult):
-    attention_scores = W_mult @ decoder_hidden_state
-    attention_weights = np.dot(attention_scores.T, encoder_hidden_states)
-    attention_weights = softmax(attention_weights)
-    attention_vector = encoder_hidden_states @ attention_weights.T
+    '''
+    decoder_hidden_state: np.array of shape (n_features_dec, 1)
+    encoder_hidden_states: np.array of shape (n_features_enc, n_states)
+    W_mult: np.array of shape (n_features_dec, n_features_enc)
+
+    return: np.array of shape (n_features_enc, 1)
+        Final attention vector
+    '''
+    # Убедитесь, что decoder_hidden_state имеет размерность (n_features_dec, 1)
+    assert decoder_hidden_state.shape[0] == W_mult.shape[0], "Size mismatch between decoder_hidden_state and W_mult"
+
+    # Вычисляем оценки внимания
+    attention_scores = W_mult @ decoder_hidden_state  # (n_features_enc, 1)
+    
+    # Умножаем оценки на скрытые состояния кодера
+    attention_weights = np.dot(attention_scores.T, encoder_hidden_states)  # (1, n_states)
+    
+    # Применяем softmax
+    attention_weights = softmax(attention_weights)  # (1, n_states)
+    
+    # Вычисляем итоговый вектор внимания
+    attention_vector = encoder_hidden_states @ attention_weights.T  # (n_features_enc, 1)
+    
     return attention_vector
+
+
 
 
 
