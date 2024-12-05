@@ -61,7 +61,3 @@ def additive_attention(decoder_hidden_state, encoder_hidden_states, v_add, W_add
     attention_vector = encoder_hidden_states @ attention_weights.T  # (n_features_enc, 1)
 
     return attention_vector
-
-
-
-
