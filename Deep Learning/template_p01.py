@@ -33,7 +33,6 @@ def multiplicative_attention(decoder_hidden_state, encoder_hidden_states, W_mult
     
     return attention_vector
 
-
 def additive_attention(decoder_hidden_state, encoder_hidden_states, v_add, W_add_enc, W_add_dec):
     '''
     decoder_hidden_state: np.array of shape (n_features_dec, 1)
