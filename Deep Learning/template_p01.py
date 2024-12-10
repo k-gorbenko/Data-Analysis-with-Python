@@ -45,19 +45,22 @@ def additive_attention(decoder_hidden_state, encoder_hidden_states, v_add, W_add
         Final attention vector
     '''
     # Применяем линейные преобразования
-    encoder_transformed = W_add_enc @ encoder_hidden_states
-    decoder_transformed = W_add_dec @ decoder_hidden_state
+    encoder_transformed = W_add_enc @ encoder_hidden_states  # (n_features_int, n_states)
+    decoder_transformed = W_add_dec @ decoder_hidden_state  # (n_features_int, 1)
+
+    # Расширяем декодерное состояние для суммирования
+    decoder_transformed_expanded = np.tile(decoder_transformed, (1, encoder_hidden_states.shape[1]))  # (n_features_int, n_states)
 
     # Суммируем результаты
-    scores = v_add.T @ (encoder_transformed + decoder_transformed)
+    scores = v_add.T @ (encoder_transformed + decoder_transformed_expanded)  # (1, n_states)
 
     # Применяем активацию tanh
     scores = np.tanh(scores)
 
     # Применяем softmax к оценкам
-    attention_weights = softmax(scores)
+    attention_weights = softmax(scores.T)  # (n_states, 1)
 
     # Вычисляем итоговый вектор внимания
-    attention_vector = encoder_hidden_states @ attention_weights.T
+    attention_vector = encoder_hidden_states @ attention_weights  # (n_features_enc, 1)
 
     return attention_vector
